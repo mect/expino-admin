@@ -1,4 +1,4 @@
-import config from "config";
+import { HOST } from "../variables";
 import { authHeader } from "../_helpers/auth-header";
 import { authService } from "../_services/auth.service";
 
@@ -8,9 +8,7 @@ const getAllNewsItems = () => {
     headers: authHeader(),
   };
 
-  return fetch(`${config.apiUrl}/v1/news/items`, requestOptions).then(
-    handleResponse
-  );
+  return fetch(`${HOST}/v1/news/items`, requestOptions).then(handleResponse);
 };
 
 const getNewsItem = (id) => {
@@ -22,7 +20,7 @@ const getNewsItem = (id) => {
     },
   };
 
-  return fetch(`${config.apiUrl}/v1/news/item/${id}`, requestOptions).then(
+  return fetch(`${HOST}/v1/news/item/${id}`, requestOptions).then(
     handleResponse
   );
 };
@@ -38,9 +36,7 @@ const addNewsItems = (item) => {
     body: JSON.stringify(item, getCircularReplacer()),
   };
 
-  return fetch(`${config.apiUrl}/v1/news/item`, requestOptions).then(
-    handleResponse
-  );
+  return fetch(`${HOST}/v1/news/item`, requestOptions).then(handleResponse);
 };
 
 const editNewsItems = (item) => {
@@ -54,7 +50,7 @@ const editNewsItems = (item) => {
     body: JSON.stringify(item, getCircularReplacer()),
   };
 
-  return fetch(`${config.apiUrl}/v1/news/item/${item.ID}`, requestOptions).then(
+  return fetch(`${HOST}/v1/news/item/${item.ID}`, requestOptions).then(
     handleResponse
   );
 };
@@ -68,7 +64,7 @@ const deleteNewsItem = (item) => {
     },
   };
 
-  return fetch(`${config.apiUrl}/v1/news/item/${item.ID}`, requestOptions).then(
+  return fetch(`${HOST}/v1/news/item/${item.ID}`, requestOptions).then(
     handleResponse
   );
 };

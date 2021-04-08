@@ -1,4 +1,4 @@
-import config from "config";
+import { HOST } from "../variables";
 import { authHeader } from "../_helpers/auth-header";
 
 const login = (username, password) => {
@@ -8,7 +8,7 @@ const login = (username, password) => {
     body: JSON.stringify({ username, password }),
   };
 
-  return fetch(`${config.apiUrl}/login`, requestOptions)
+  return fetch(`${HOST}/login`, requestOptions)
     .then(handleResponse)
     .then((user) => {
       if (user.token) {
@@ -29,9 +29,7 @@ const check = () => {
     headers: authHeader(),
   };
 
-  return fetch(`${config.apiUrl}/v1/auth/check`, requestOptions).then(
-    handleResponse
-  );
+  return fetch(`${HOST}/v1/auth/check`, requestOptions).then(handleResponse);
 };
 
 export const authService = {

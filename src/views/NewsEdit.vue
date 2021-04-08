@@ -146,7 +146,7 @@
 
 <script>
 import Editor from "@tinymce/tinymce-vue";
-import config from "config";
+import { HOST } from "../variables";
 import _ from "lodash";
 
 import { newsService } from "@/_services/news.service";
@@ -161,7 +161,7 @@ export default {
     return {
       loading: true,
       saving: false,
-      apiUrl: config.apiUrl,
+      apiUrl: HOST,
       item: {},
       languages: ["NL", "EN", "FR"],
     };
@@ -224,7 +224,7 @@ export default {
 
       xhr = new XMLHttpRequest();
       xhr.withCredentials = false;
-      xhr.open("POST", `${config.apiUrl}/v1/static/upload`);
+      xhr.open("POST", `${HOST}/v1/static/upload`);
 
       let user = JSON.parse(localStorage.getItem("user"));
       xhr.setRequestHeader("Authorization", "Bearer " + user.token);
