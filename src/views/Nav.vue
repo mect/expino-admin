@@ -1,7 +1,9 @@
 <template id="nav">
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Expino</a>
+      <a class="navbar-brand" href="#"
+        ><img src="css/expinologo.png" alt="expino" />
+      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -42,3 +44,9 @@
 <script>
 export default {};
 </script>
+
+<style>
+.navbar-brand img {
+  max-height: 50px;
+}
+</style>
