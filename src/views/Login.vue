@@ -3,6 +3,9 @@
     <div class="container vertical-center">
       <div class="container">
         <div class="row justify-content-center">
+          <div class="col-12 text-center logo">
+            <img src="css/expinologo.png" alt="Expino" />
+          </div>
           <div class="col-md-5 col-10 login-box">
             <form m v-on:submit.prevent="login">
               <div class="form-group">
@@ -98,11 +101,12 @@ export default {
 <style scoped>
 @import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css";
 
+.logo img {
+  max-width: 300px;
+}
+
 .bg {
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  background-size: cover;
+  background-color: black;
 }
 
 .login-box {
