@@ -29,13 +29,18 @@
         </colgroup>
         <thead class="thead-dark">
           <tr>
+            <th></th>
             <th>Name</th>
             <th>TIme</th>
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="item in items" v-bind:key="item.ID">
+
+        <draggable tag="tbody" :list="items" @change="onDrop">
+          <tr v-for="item in items" :key="item.id">
+            <td class="text-center">
+              <i class="fas fa-arrows-alt"></i>
+            </td>
             <td>
               {{ item.name }}
             </td>
@@ -57,7 +62,7 @@
               </button>
             </td>
           </tr>
-        </tbody>
+        </draggable>
       </table>
     </div>
   </div>
@@ -65,10 +70,13 @@
 
 <script>
 import { newsService } from "../_services/news.service";
+import Draggable from "vuedraggable";
 
 export default {
   template: "#newslist",
-  components: {},
+  components: {
+    Draggable,
+  },
   data: function () {
     return {
       loading: true,
@@ -79,6 +87,16 @@ export default {
   methods: {
     addItem: function () {
       this.$router.push("/news/edit/0");
+    },
+
+    onDrop: function () {
+      for (let i in this.items) {
+        if (!this.items.hasOwnProperty(i)) {
+          continue;
+        }
+        this.items[i].order = parseInt(i);
+        newsService.editNewsItems(this.items[i]);
+      }
     },
 
     removeItem: async function (item) {
