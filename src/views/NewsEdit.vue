@@ -84,10 +84,11 @@
             :init="{
               height: 500,
               menubar: false,
-              plugins: ['image', 'table', 'lists', 'advlist'],
+              plugins: ['image', 'table', 'lists', 'advlist', 'media'],
               image_uploadtab: true,
               images_upload_handler: image_upload_handler,
               fontsize_formats: '1rem 2rem 3rem 4rem',
+              media_live_embeds: true,
               style_formats: [
                 {
                   title: 'Image Left',
@@ -109,7 +110,7 @@
               toolbar:
                 'undo redo | formatselect | fontsizeselect | bold italic backcolor | \
            alignleft aligncenter alignright alignjustify |  \
-           bullist numlist outdent indent | removeformat | image | help',
+           bullist numlist outdent indent | removeformat | image | media | help',
             }"
           />
         </div>
