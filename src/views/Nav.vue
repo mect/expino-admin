@@ -32,6 +32,17 @@
               ><i class="fas fa-newspaper"></i> News</router-link
             >
           </li>
+          <li
+            :class="
+              $route.name.indexOf('displays') == 0
+                ? 'nav-item active'
+                : 'nav-item'
+            "
+          >
+            <router-link class="nav-link" to="/displays"
+              ><i class="fas fa-tv"></i> Displays</router-link
+            >
+          </li>
         </ul>
       </div>
     </nav>

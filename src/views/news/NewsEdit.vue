@@ -147,13 +147,13 @@
 
 <script>
 import Editor from "@tinymce/tinymce-vue";
-import { HOST } from "../variables";
+import { HOST } from "../../variables";
 import _ from "lodash";
 
 import { newsService } from "@/_services/news.service";
 
 export default {
-  props: ["id"],
+  props: ["id", "displayID"],
   template: "#newsedit",
   components: {
     editor: Editor,
@@ -292,6 +292,7 @@ export default {
         ID: 0,
         name: "",
         slideTime: 10,
+        displayID: parseInt(this.$props.displayID),
         languageItems: [
           {
             language: "NL",

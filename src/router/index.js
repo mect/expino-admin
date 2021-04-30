@@ -3,8 +3,10 @@ import VueRouter from "vue-router";
 import Login from "../views/Login.vue";
 import Home from "../views/Home.vue";
 import Nav from "../views/Nav.vue";
-import NewsList from "../views/NewsList.vue";
-import NewsEdit from "../views/NewsEdit.vue";
+import NewsList from "../views/news/NewsList.vue";
+import NewsEdit from "../views/news/NewsEdit.vue";
+import DisplayList from "../views/displays/DisplayList.vue";
+import DisplayEdit from "../views/displays/DisplayEdit.vue";
 
 Vue.use(VueRouter);
 
@@ -30,9 +32,20 @@ const routes = [
         component: NewsList,
       },
       {
-        path: "/news/edit/:id",
+        path: "/news/edit/:displayID/:id",
         name: "news",
         component: NewsEdit,
+        props: true,
+      },
+      {
+        path: "/displays",
+        name: "displaylist",
+        component: DisplayList,
+      },
+      {
+        path: "/displays/edit/:id",
+        name: "displayedit",
+        component: DisplayEdit,
         props: true,
       },
     ],

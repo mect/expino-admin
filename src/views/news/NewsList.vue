@@ -8,6 +8,33 @@
 
     <div v-if="!loading">
       <h1>News</h1>
+      <div class="row mb-2">
+        <div class="col-12">
+          <span class="float-right">
+            Display
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {{ this.currentDisplay.name }}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a
+                class="dropdown-item"
+                v-for="display in this.displays"
+                v-bind:key="display.ID"
+                href="#"
+                v-on:click="switchDisplay(display)"
+                >{{ display.name }}</a
+              >
+            </div>
+          </span>
+        </div>
+      </div>
       <div class="row">
         <h3 class="col-12">
           <span class="float-right">
@@ -69,7 +96,8 @@
 </template>
 
 <script>
-import { newsService } from "../_services/news.service";
+import { newsService } from "../../_services/news.service";
+import { displayService } from "../../_services/display.service";
 import Draggable from "vuedraggable";
 
 export default {
@@ -80,13 +108,15 @@ export default {
   data: function () {
     return {
       loading: true,
+      currentDisplay: {},
       items: [],
+      allItems: [],
     };
   },
 
   methods: {
     addItem: function () {
-      this.$router.push("/news/edit/0");
+      this.$router.push(`/news/edit/${this.currentDisplay.ID}/0`);
     },
 
     onDrop: function () {
@@ -114,16 +144,42 @@ export default {
     },
 
     editItem: function (item) {
-      this.$router.push(`/news/edit/${item.ID}`);
+      this.$router.push(`/news/edit/${this.currentDisplay.ID}/${item.ID}`);
     },
 
-    loadedData: function (res) {
-      this.loading = false;
-      this.items = res;
+    switchDisplay: function (display) {
+      this.currentDisplay = display;
+      this.loadItems(display.ID);
     },
 
-    loadData: function () {
-      newsService.getAllNewsItems().then(this.loadedData);
+    loadItems: function (displayID) {
+      this.items = [];
+      for (let item of this.allItems) {
+        if (item.displayID === displayID) {
+          this.items.push(item);
+        }
+      }
+    },
+
+    loadData: async function () {
+      try {
+        this.displays = await displayService.getAllDisplays();
+        this.allItems = await newsService.getAllNewsItems();
+
+        if (this.displays.length > 0) {
+          this.currentDisplay = this.displays[0];
+          this.loadItems(this.displays[0].ID);
+        }
+
+        this.loading = false;
+      } catch (e) {
+        this.$Simplert.open({
+          title: "Error",
+          message: e,
+          type: "error",
+          customCloseBtnText: "Close",
+        });
+      }
     },
   },
 
