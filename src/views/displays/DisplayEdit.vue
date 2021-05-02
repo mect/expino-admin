@@ -45,6 +45,29 @@
             />
           </div>
         </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="tickerrss">Ticker RSS</label>
+            <input
+              type="text"
+              class="form-control"
+              id="tickerrss"
+              v-model="item.tickerRSS"
+            />
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <label for="tickertext">Ticker Text</label>
+            <input
+              type="text"
+              class="form-control"
+              id="tickertext"
+              v-model.number="item.tickerText"
+            />
+          </div>
+        </div>
 
         <hr />
       </div>
