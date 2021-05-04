@@ -87,7 +87,8 @@
               plugins: ['image', 'table', 'lists', 'advlist', 'media'],
               image_uploadtab: true,
               images_upload_handler: image_upload_handler,
-              fontsize_formats: '1rem 2rem 3rem 4rem',
+              fontsize_formats:
+                '1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem 9rem 10rem',
               media_live_embeds: true,
               style_formats: [
                 {
