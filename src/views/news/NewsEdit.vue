@@ -22,7 +22,7 @@
           </span>
         </div>
 
-        <div class="col-10">
+        <div class="col-8">
           <div class="form-group">
             <label for="title">Name</label>
             <input
@@ -31,6 +31,30 @@
               id="title"
               v-model="item.name"
             />
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div class="form-group">
+            <label>Visible</label>
+            <div class="text-center" v-if="!item.hidden">
+              <button
+                type="button"
+                v-on:click="item.hidden = true"
+                class="btn btn-success"
+              >
+                <i class="fas fa-check"></i>
+              </button>
+            </div>
+            <div class="text-center" v-if="item.hidden">
+              <button
+                type="button"
+                v-on:click="item.hidden = false"
+                class="btn btn-outline-danger"
+              >
+                <i class="far fa-square"></i>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -145,7 +169,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import Editor from "@tinymce/tinymce-vue";
 import { HOST } from "../../variables";

@@ -58,7 +58,8 @@
           <tr>
             <th></th>
             <th>Name</th>
-            <th>TIme</th>
+            <th>Visible</th>
+            <th>Time</th>
             <th></th>
           </tr>
         </thead>
@@ -70,6 +71,9 @@
             </td>
             <td>
               {{ item.name }}
+            </td>
+            <td>
+              <i class="fas fa-check" v-if="!item.hidden"></i>
             </td>
             <td>FROM - TO</td>
             <td style="width: 120px">
