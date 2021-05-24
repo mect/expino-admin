@@ -69,6 +69,18 @@
           </div>
         </div>
 
+        <div class="col-6">
+          <div class="form-group">
+            <label for="url">URL</label>
+            <input
+              type="text"
+              class="form-control"
+              id="url"
+              v-model.number="item.url"
+            />
+          </div>
+        </div>
+
         <hr />
       </div>
     </div>
