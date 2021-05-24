@@ -10,6 +10,14 @@
       <h2><span v-if="id == 0">Add</span><span v-else>Edit</span> News</h2>
       <div class="row">
         <div class="col-12">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            v-on:click="goBack()"
+            v-bind:disabled="saving"
+          >
+            <i class="fas fa-arrow-left" /> Back
+          </button>
           <span class="float-right">
             <button
               type="button"
@@ -292,6 +300,9 @@ export default {
       formData.append("file", blobInfo.blob(), blobInfo.filename());
 
       xhr.send(formData);
+    },
+    goBack: function () {
+      this.$router.back();
     },
   },
 

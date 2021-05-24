@@ -32,6 +32,12 @@ const routes = [
         component: NewsList,
       },
       {
+        path: "/news/:displayID",
+        name: "newslist",
+        component: NewsList,
+        props: true,
+      },
+      {
         path: "/news/edit/:displayID/:id",
         name: "news",
         component: NewsEdit,

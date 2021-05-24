@@ -27,10 +27,9 @@
                 class="dropdown-item"
                 v-for="display in this.displays"
                 v-bind:key="display.ID"
-                href="#"
-                v-on:click="switchDisplay(display)"
-                >{{ display.name }}</a
-              >
+                v-on:click="loadItems(display.ID, true)"
+                >{{ display.name }}
+              </a>
             </div>
           </span>
         </div>
@@ -105,6 +104,7 @@ import { displayService } from "../../_services/display.service";
 import Draggable from "vuedraggable";
 
 export default {
+  props: ["displayID"],
   template: "#newslist",
   components: {
     Draggable,
@@ -151,15 +151,21 @@ export default {
       this.$router.push(`/news/edit/${this.currentDisplay.ID}/${item.ID}`);
     },
 
-    switchDisplay: function (display) {
-      this.currentDisplay = display;
-      this.loadItems(display.ID);
-    },
+    loadItems: function (displayID, pushRouter) {
+      if (pushRouter) {
+        this.$router.push(`/news/${displayID}`);
+      }
+      for (let item of this.displays) {
+        console.log(item);
+        if (item.ID == displayID) {
+          this.currentDisplay = item;
+          break;
+        }
+      }
 
-    loadItems: function (displayID) {
       this.items = [];
       for (let item of this.allItems) {
-        if (item.displayID === displayID) {
+        if (item.displayID === this.currentDisplay.ID) {
           this.items.push(item);
         }
       }
@@ -171,8 +177,7 @@ export default {
         this.allItems = await newsService.getAllNewsItems();
 
         if (this.displays.length > 0) {
-          this.currentDisplay = this.displays[0];
-          this.loadItems(this.displays[0].ID);
+          this.loadItems(this.$props.displayID || this.displays[0].ID);
         }
 
         this.loading = false;
@@ -187,7 +192,7 @@ export default {
     },
   },
 
-  created: function () {
+  mounted: function () {
     this.loadData();
   },
 };
