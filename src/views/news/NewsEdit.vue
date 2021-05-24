@@ -30,7 +30,7 @@
           </span>
         </div>
 
-        <div class="col-8">
+        <div class="col-9">
           <div class="form-group">
             <label for="title">Name</label>
             <input
@@ -42,7 +42,7 @@
           </div>
         </div>
 
-        <div class="col-2">
+        <div class="col-1">
           <div class="form-group">
             <label>Visible</label>
             <div class="text-center" v-if="!item.hidden">
@@ -111,41 +111,45 @@
             </div>
           </div>
 
-          <editor
-            v-model="langItem.content"
-            :init="{
-              height: 500,
-              menubar: false,
-              plugins: ['image', 'table', 'lists', 'advlist', 'media'],
-              image_uploadtab: true,
-              images_upload_handler: image_upload_handler,
-              fontsize_formats:
-                '1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem 9rem 10rem',
-              media_live_embeds: true,
-              style_formats: [
-                {
-                  title: 'Image Left',
-                  selector: 'img',
-                  styles: {
-                    float: 'left',
-                    margin: '0 10px 0 10px',
+          <div>
+            <editor
+              v-model="langItem.content"
+              :init="{
+                height: 850,
+                width: 1485,
+                menubar: false,
+                plugins: ['image', 'table', 'lists', 'advlist', 'media'],
+                image_uploadtab: true,
+                images_upload_handler: image_upload_handler,
+                fontsize_formats:
+                  '1rem 2rem 3rem 4rem 5rem 6rem 7rem 8rem 9rem 10rem',
+                media_live_embeds: true,
+                content_style: 'p {}',
+                style_formats: [
+                  {
+                    title: 'Image Left',
+                    selector: 'img',
+                    styles: {
+                      float: 'left',
+                      margin: '0 10px 0 10px',
+                    },
                   },
-                },
-                {
-                  title: 'Image Right',
-                  selector: 'img',
-                  styles: {
-                    float: 'right',
-                    margin: '0 10px 0 10px',
+                  {
+                    title: 'Image Right',
+                    selector: 'img',
+                    styles: {
+                      float: 'right',
+                      margin: '0 10px 0 10px',
+                    },
                   },
-                },
-              ],
-              toolbar:
-                'undo redo | formatselect | fontsizeselect | bold italic backcolor | \
+                ],
+                toolbar:
+                  'undo redo | formatselect | fontsizeselect | bold italic backcolor | \
            alignleft aligncenter alignright alignjustify |  \
            bullist numlist outdent indent | removeformat | image | media | help',
-            }"
-          />
+              }"
+            />
+          </div>
         </div>
 
         <div class="col-12">
@@ -206,7 +210,7 @@ export default {
         if (li.language == lang) {
           this.$Simplert.open({
             title: "Language already exists",
-            message: "Languaga already exists",
+            message: "Language already exists",
             type: "error",
             customCloseBtnText: "Close",
           });
@@ -216,7 +220,7 @@ export default {
       this.item.languageItems.push({
         language: lang,
         title: "",
-        content: "<p>Your Message Here</p>",
+        content: `<p><span style="font-size: 2rem;">Your Message Here</span></p>`,
       });
     },
     removeLanguage: function (lang) {
@@ -328,16 +332,17 @@ export default {
         name: "",
         slideTime: 10,
         displayID: parseInt(this.$props.displayID),
-        languageItems: [
-          {
-            language: "NL",
-            title: "",
-            content: "<p>Your Message Here</p>",
-          },
-        ],
+        languageItems: [],
       };
+      this.addLanguage("NL"); // TODO not hard code this
       this.loading = false;
     }
   },
 };
 </script>
+
+<style>
+.container {
+  max-width: 1485px;
+}
+</style>
