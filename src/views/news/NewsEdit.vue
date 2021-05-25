@@ -333,6 +333,7 @@ export default {
         slideTime: 10,
         displayID: parseInt(this.$props.displayID),
         languageItems: [],
+        hidden: false,
       };
       this.addLanguage("NL"); // TODO not hard code this
       this.loading = false;
