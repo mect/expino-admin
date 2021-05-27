@@ -1,5 +1,5 @@
 <template id="newsedit">
-  <div class="container">
+  <div class="container container-edit">
     <div class="d-flex justify-content-center" v-if="loading">
       <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
@@ -77,9 +77,51 @@
             />
           </div>
         </div>
+      </div>
 
-        <hr />
+      <h3>Time limits</h3>
+      <p v-if="item.timeFrames.length < 1">Always displaying</p>
+      <div class="row" v-for="tf in item.timeFrames" v-bind:key="tf.ID">
+        <div class="col-5">
+          <div class="form-group">
+            <label for="from">From</label>
+            <input
+              type="date"
+              class="form-control"
+              id="from"
+              v-model="tf.from"
+            />
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="form-group">
+            <label for="to">To</label>
+            <input type="date" class="form-control" id="to" v-model="tf.to" />
+          </div>
+        </div>
+        <div class="col-2">
+          <button
+            type="button"
+            class="btn btn-outline-danger mt-4"
+            v-on:click="removeTimeFrame(tf)"
+          >
+            <i class="fas fa-trash" />
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <button
+            class="btn btn-sm btn-outline-success"
+            v-on:click="addTimeFrame"
+          >
+            <i class="fas fa-plus"></i> Add Time Limit
+          </button>
+        </div>
+      </div>
+      <hr />
 
+      <div class="row">
         <div
           class="col-12"
           v-for="langItem of item.languageItems"
@@ -230,15 +272,29 @@ export default {
         (o) => o.language !== lang
       );
     },
+    addTimeFrame: function () {
+      this.item.timeFrames.push({
+        from: today().toISOString().slice(0, 10),
+        to: tomorrow().toISOString().slice(0, 10),
+        _id: this.item.timeFrames.length, // internal for removeTimeFrame
+      });
+    },
+    removeTimeFrame: function (frame) {
+      this.item.timeFrames = _.remove(this.item.timeFrames, (o) => o !== frame);
+    },
     save: async function () {
       this.saving = true;
       try {
-        if (this.item.ID == 0) {
-          this.item = await newsService.addNewsItems(this.item);
-        } else {
-          await newsService.editNewsItems(this.item);
+        const localCopy = JSON.parse(JSON.stringify(this.item));
+        for (let tf of localCopy.timeFrames) {
+          tf.to = new Date(tf.to);
+          tf.from = new Date(tf.from);
         }
-
+        if (localCopy.ID == 0) {
+          this.item = await newsService.addNewsItems(localCopy);
+        } else {
+          await newsService.editNewsItems(localCopy);
+        }
         this.saving = false;
         this.$Simplert.open({
           title: "Saved",
@@ -316,6 +372,10 @@ export default {
         .getNewsItem(this.$props.id)
         .then((res) => {
           this.item = res;
+          for (let tf of this.item.timeFrames) {
+            tf.to = new Date(tf.to).toISOString().slice(0, 10);
+            tf.from = new Date(tf.from).toISOString().slice(0, 10);
+          }
           this.loading = false;
         })
         .catch((e) => {
@@ -333,6 +393,7 @@ export default {
         slideTime: 10,
         displayID: parseInt(this.$props.displayID),
         languageItems: [],
+        timeFrames: [],
         hidden: false,
       };
       this.addLanguage("NL"); // TODO not hard code this
@@ -340,10 +401,23 @@ export default {
     }
   },
 };
+
+function today() {
+  const t = new Date();
+  t.setHours(0);
+  t.setMinutes(0);
+  t.setMilliseconds(0);
+
+  return t;
+}
+
+function tomorrow() {
+  return new Date(today().getTime() + 25 * 60 * 60 * 1000);
+}
 </script>
 
 <style>
-.container {
+.container-edit {
   max-width: 1485px;
 }
 </style>
