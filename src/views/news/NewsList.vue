@@ -74,7 +74,13 @@
             <td>
               <i class="fas fa-check" v-if="!item.hidden"></i>
             </td>
-            <td>FROM - TO</td>
+            <td>
+              <span v-if="item.timeFrames.length < 1">Always Display</span>
+              <p v-for="tf in item.timeFrames" v-bind:key="tf.ID">
+                {{ new Date(tf.to).toDateString() }} -
+                {{ new Date(tf.from).toDateString() }}
+              </p>
+            </td>
             <td style="width: 120px">
               <button
                 type="button"
