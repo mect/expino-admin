@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <div v-if="!loading">
+    <form v-if="!loading" @submit="save">
       <h2><span v-if="id == 0">Add</span><span v-else>Edit</span> News</h2>
       <div class="row">
         <div class="col-12">
@@ -20,9 +20,8 @@
           </button>
           <span class="float-right">
             <button
-              type="button"
+              type="submit"
               class="btn btn-success"
-              v-on:click="save()"
               v-bind:disabled="saving"
             >
               <i class="fas fa-save" /> Save
@@ -38,6 +37,7 @@
               class="form-control"
               id="title"
               v-model="item.name"
+              required
             />
           </div>
         </div>
@@ -74,6 +74,7 @@
               class="form-control"
               id="slidetime"
               v-model.number="item.slideTime"
+              required
             />
           </div>
         </div>
@@ -220,7 +221,7 @@
           </span>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 <script>
@@ -282,19 +283,25 @@ export default {
     removeTimeFrame: function (frame) {
       this.item.timeFrames = _.remove(this.item.timeFrames, (o) => o !== frame);
     },
-    save: async function () {
+    save: async function (e) {
+      e.preventDefault();
       this.saving = true;
       try {
         const localCopy = JSON.parse(JSON.stringify(this.item));
         for (let tf of localCopy.timeFrames) {
-          tf.to = new Date(tf.to);
-          tf.from = new Date(tf.from);
+          tf.to
+            ? (tf.to = new Date(tf.to))
+            : throw new Error("To not filled in");
+          tf.from
+            ? (tf.from = new Date(tf.from))
+            : throw new Error("From not filled in");
         }
         if (localCopy.ID == 0) {
           this.item = await newsService.addNewsItems(localCopy);
         } else {
           await newsService.editNewsItems(localCopy);
         }
+
         this.saving = false;
         this.$Simplert.open({
           title: "Saved",
