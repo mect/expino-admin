@@ -115,6 +115,7 @@
           <button
             class="btn btn-sm btn-outline-success"
             v-on:click="addTimeFrame"
+            type="button"
           >
             <i class="fas fa-plus"></i> Add Time Limit
           </button>
